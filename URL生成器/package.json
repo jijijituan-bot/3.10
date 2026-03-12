@@ -2,34 +2,11 @@
   "name": "image-uploader",
   "version": "1.0.0",
   "description": "图片上传和视频转GIF工具",
-  "main": "app.js",
+  "main": "URL生成器/app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "node app.js",
-    "build": "echo 'No build step required for static files'",
-    "railway": "node start.js",
-    "test": "node -e \"console.log('✅ 测试通过 - 静态文件服务器')\""
-  },
-  "dependencies": {
-    "mime-types": "^2.1.35"
+    "start": "node URL生成器/app.js"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
-  },
-  "keywords": ["image", "upload", "gif", "converter", "railway", "imgbb"],
-  "author": "Your Name",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "."
-  },
-  "railway": {
-    "build": {
-      "command": "echo 'Static files ready'"
-    },
-    "start": {
-      "command": "node app.js"
-    }
+    "node": ">=18.0.0"
   }
 }
