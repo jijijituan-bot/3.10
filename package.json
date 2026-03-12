@@ -4,8 +4,7 @@
   "description": "图片上传和视频转GIF工具",
   "main": "URL生成器/app.js",
   "scripts": {
-    "start": "node URL生成器/app.js",
-    "dev": "node URL生成器/app.js"
+    "start": "node URL生成器/app.js"
   },
   "engines": {
     "node": ">=18.0.0"
