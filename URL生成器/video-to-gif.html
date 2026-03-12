@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频转GIF表情包 - 在线制作</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .video-controls {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(102, 126, 234, 0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .control-group input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+
+        .control-group input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .control-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-row .control-group {
+            flex: 1;
+        }
+
+        .value-display {
+            display: inline-block;
+            color: #667eea;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        video {
+            width: 100%;
+            max-height: 300px;
+            border-radius: 15px;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .convert-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .convert-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .convert-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .tips {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .tips h3 {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .tips ul {
+            color: rgba(255, 255, 255, 0.7);
+            padding-left: 20px;
+            line-height: 1.8;
+        }
+
+        .gif-preview {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .gif-preview img {
+            max-width: 100%;
+            border-radius: 15px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 15px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <!-- 下雨效果容器 -->
+    <div class="rain" id="rain"></div>
+
+    <div class="container">
+        <h1>🎬 视频转GIF</h1>
+        <p class="subtitle">上传视频，制作专属表情包</p>
+        
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">🎥</div>
+            <p>拖拽视频到这里或点击上传</p>
+            <input type="file" id="fileInput" accept="video/*" hidden>
+            <button class="upload-btn" id="uploadBtn">选择视频</button>
+        </div>
+
+        <div id="videoSection" style="display: none;">
+            <video id="videoPreview" controls></video>
+
+            <div class="video-controls">
+                <div class="control-row">
+                    <div class="control-group">
+                        <label>开始时间 <span class="value-display" id="startTimeDisplay">0s</span></label>
+                        <input type="range" id="startTime" min="0" max="10" value="0" step="0.1">
+                    </div>
+                    <div class="control-group">
+                        <label>结束时间 <span class="value-display" id="endTimeDisplay">3s</span></label>
+                        <input type="range" id="endTime" min="0" max="10" value="3" step="0.1">
+                    </div>
+                </div>
+
+                <div class="control-row">
+                    <div class="control-group">
+                        <label>宽度 (像素)</label>
+                        <input type="number" id="width" value="480" min="100" max="1920" step="10">
+                    </div>
+                    <div class="control-group">
+                        <label>帧率 (FPS)</label>
+                        <input type="number" id="fps" value="15" min="5" max="30" step="1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips">
+                <h3>💡 制作建议</h3>
+                <ul>
+                    <li>时长建议：2-5秒最佳（文件更小，加载更快）</li>
+                    <li>尺寸建议：宽度 300-500 像素（适合聊天使用）</li>
+                    <li>帧率建议：10-15 FPS（流畅且文件小）</li>
+                    <li>文件大小：建议控制在 5MB 以内</li>
+                </ul>
+            </div>
+
+            <button class="convert-btn" id="convertBtn">🎨 开始转换</button>
+
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p id="loadingText">正在处理...</p>
+        </div>
+
+        <div id="resultSection" style="display: none;">
+            <div class="preview-section">
+                <h2>✨ 转换完成</h2>
+                <div class="gif-preview">
+                    <img id="gifPreview" alt="GIF预览">
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="download-btn" id="downloadBtn">💾 下载GIF</button>
+                    <button class="upload-btn" id="uploadGifBtn" style="display: inline-block; margin: 15px 10px;">☁️ 上传到图床</button>
+                </div>
+                <div class="url-section" id="urlSection" style="display: none;">
+                    <label>🔗 图片链接（永久有效）</label>
+                    <div class="url-display">
+                        <input type="text" id="imageUrl" readonly>
+                        <button class="copy-btn" id="copyBtn">复制</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 创建下雨效果
+        function createRain() {
+            const rainContainer = document.getElementById('rain');
+            const numberOfDrops = 100;
+            
+            for (let i = 0; i < numberOfDrops; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'rain-drop';
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                drop.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+                drop.style.opacity = Math.random() * 0.5 + 0.3;
+                rainContainer.appendChild(drop);
+            }
+        }
+        
+        createRain();
+    </script>
+    <script src="video-to-gif.js"></script>
+</body>
+</html>

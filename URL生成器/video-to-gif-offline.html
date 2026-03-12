@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频转GIF - 完全离线版</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .warning-box {
+            background: rgba(255, 152, 0, 0.1);
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .warning-box h3 {
+            color: #ff9800;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .warning-box p {
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .solution-box {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .solution-box h3 {
+            color: #4caf50;
+            margin-bottom: 15px;
+        }
+
+        .solution-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .solution-list li {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .solution-list li:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .solution-list li strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .tool-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px 10px 10px 0;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tool-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .code-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            color: #4caf50;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="rain" id="rain"></div>
+
+    <div class="container">
+        <h1>🎬 视频转GIF</h1>
+        <p class="subtitle">完全离线版 - 问题解决方案</p>
+
+        <div class="warning-box">
+            <h3>⚠️ 当前问题</h3>
+            <p><strong>错误信息：</strong>FFmpeg 加载失败，请检查网络连接</p>
+            <p><strong>原因：</strong>无法从 CDN 加载必需的库文件（可能是网络问题、防火墙或浏览器限制）</p>
+        </div>
+
+        <div class="solution-box">
+            <h3>✅ 解决方案（选择一个）</h3>
+            <ul class="solution-list">
+                <li onclick="showSolution(1)">
+                    <strong>方案1：使用在线工具（推荐，最简单）</strong>
+                    <p>使用成熟的在线工具，无需安装，立即可用</p>
+                </li>
+                <li onclick="showSolution(2)">
+                    <strong>方案2：使用本地服务器</strong>
+                    <p>启动本地服务器解决跨域问题</p>
+                </li>
+                <li onclick="showSolution(3)">
+                    <strong>方案3：使用桌面软件</strong>
+                    <p>下载专业软件，功能更强大</p>
+                </li>
+                <li onclick="showSolution(4)">
+                    <strong>方案4：使用 Python 脚本</strong>
+                    <p>适合有编程基础的用户</p>
+                </li>
+            </ul>
+        </div>
+
+        <div id="solution1" style="display: none;">
+            <div class="preview-section">
+                <h2>🌐 方案1：在线工具（推荐）</h2>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+                    这些工具无需安装，打开即用，功能强大且稳定：
+                </p>
+                
+                <div style="margin: 20px 0;">
+                    <a href="https://ezgif.com/video-to-gif" target="_blank" class="tool-link">
+                        🎯 EZGIF（功能最强）
+                    </a>
+                    <a href="https://cloudconvert.com/mp4-to-gif" target="_blank" class="tool-link">
+                        ☁️ CloudConvert（质量最好）
+                    </a>
+                    <a href="https://www.img2go.com/zh/convert-to-gif" target="_blank" class="tool-link">
+                        🚀 IMG2GO（最简单）
+                    </a>
+                </div>
+
+                <div class="tips">
+                    <h3>💡 使用步骤</h3>
+                    <ul>
+                        <li>1. 点击上方任一链接打开工具</li>
+                        <li>2. 上传你的视频文件</li>
+                        <li>3. 调整参数（时长、尺寸、帧率）</li>
+                        <li>4. 点击转换并下载GIF</li>
+                        <li>5. 如需永久链接，可以回到我们的图片上传工具上传GIF</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="solution2" style="display: none;">
+            <div class="preview-section">
+                <h2>🖥️ 方案2：使用本地服务器</h2>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+                    启动本地服务器可以解决跨域问题：
+                </p>
+
+                <div class="tips">
+                    <h3>📝 步骤</h3>
+                    <p><strong>如果你有 Node.js：</strong></p>
+                    <div class="code-box">
+                        node server.js
+                    </div>
+                    <p>然后访问：<code style="color: #667eea;">http://localhost:8080/video-to-gif.html</code></p>
+
+                    <p style="margin-top: 20px;"><strong>如果你有 Python：</strong></p>
+                    <div class="code-box">
+                        python -m http.server 8080
+                    </div>
+                    <p>然后访问：<code style="color: #667eea;">http://localhost:8080/video-to-gif.html</code></p>
+
+                    <p style="margin-top: 20px;"><strong>如果都没有：</strong></p>
+                    <ul>
+                        <li>下载安装 <a href="https://nodejs.org/" target="_blank" style="color: #667eea;">Node.js</a></li>
+                        <li>或使用方案1（在线工具）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="solution3" style="display: none;">
+            <div class="preview-section">
+                <h2>💻 方案3：桌面软件</h2>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+                    专业软件，功能强大，完全离线：
+                </p>
+
+                <div style="margin: 20px 0;">
+                    <a href="https://www.screentogif.com/" target="_blank" class="tool-link">
+                        🎬 ScreenToGif（免费，推荐）
+                    </a>
+                    <a href="https://www.cockos.com/licecap/" target="_blank" class="tool-link">
+                        📹 LICEcap（轻量级）
+                    </a>
+                </div>
+
+                <div class="tips">
+                    <h3>💡 推荐：ScreenToGif</h3>
+                    <ul>
+                        <li>✅ 完全免费，开源</li>
+                        <li>✅ 功能强大（录屏、编辑、转换）</li>
+                        <li>✅ 支持中文</li>
+                        <li>✅ 无需联网</li>
+                        <li>✅ 可以直接录制屏幕生成GIF</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="solution4" style="display: none;">
+            <div class="preview-section">
+                <h2>🐍 方案4：Python 脚本</h2>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+                    适合有编程基础的用户，使用 moviepy 库：
+                </p>
+
+                <div class="tips">
+                    <h3>📝 安装依赖</h3>
+                    <div class="code-box">
+pip install moviepy
+                    </div>
+
+                    <h3 style="margin-top: 20px;">📝 Python 代码</h3>
+                    <div class="code-box">
+from moviepy.editor import VideoFileClip
+
+# 读取视频
+video = VideoFileClip("input.mp4")
+
+# 裁剪时间（0-3秒）
+video = video.subclip(0, 3)
+
+# 调整大小
+video = video.resize(width=480)
+
+# 转换为GIF
+video.write_gif("output.gif", fps=15)
+
+print("转换完成！")
+                    </div>
+
+                    <h3 style="margin-top: 20px;">🚀 运行</h3>
+                    <div class="code-box">
+python convert.py
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box" style="background: rgba(33, 150, 243, 0.1); border-left-color: #2196f3; margin-top: 30px;">
+            <h3 style="color: #2196f3;">💡 为什么会出现这个问题？</h3>
+            <p><strong>技术原因：</strong></p>
+            <ul style="padding-left: 20px; line-height: 1.8;">
+                <li>浏览器的跨域安全策略限制</li>
+                <li>CDN 服务器在国外，访问可能不稳定</li>
+                <li>FFmpeg.wasm 库文件较大（约30MB）</li>
+                <li>某些网络环境下无法访问外部资源</li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>最佳实践：</strong>对于视频转GIF这类复杂操作，建议使用专业工具或桌面软件，效果更好，速度更快。</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="tool-link">
+                🏠 返回图片上传工具
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 创建下雨效果
+        function createRain() {
+            const rainContainer = document.getElementById('rain');
+            const numberOfDrops = 100;
+            for (let i = 0; i < numberOfDrops; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'rain-drop';
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                drop.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+                drop.style.opacity = Math.random() * 0.5 + 0.3;
+                rainContainer.appendChild(drop);
+            }
+        }
+        createRain();
+
+        function showSolution(num) {
+            // 隐藏所有方案
+            for (let i = 1; i <= 4; i++) {
+                const el = document.getElementById('solution' + i);
+                if (el) el.style.display = 'none';
+            }
+            
+            // 显示选中的方案
+            const selected = document.getElementById('solution' + num);
+            if (selected) {
+                selected.style.display = 'block';
+                selected.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // 默认显示方案1
+        setTimeout(() => showSolution(1), 500);
+    </script>
+</body>
+</html>

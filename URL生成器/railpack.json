@@ -1,0 +1,16 @@
+{
+  "name": "图片上传工具",
+  "description": "图片上传和视频转GIF表情包制作工具",
+  "version": "1.0.0",
+  "main": "index.html",
+  "type": "web",
+  "port": 8080,
+  "static": {
+    "root": ".",
+    "index": "index.html"
+  },
+  "server": {
+    "enabled": true,
+    "file": "server.js"
+  }
+}

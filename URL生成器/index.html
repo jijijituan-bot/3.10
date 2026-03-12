@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片上传 - ImgBB 图床</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 下雨效果容器 -->
+    <div class="rain" id="rain"></div>
+
+    <div class="container">
+        <h1>🚀 图片上传</h1>
+        <p class="subtitle">上传图片，生成永久有效的公网链接</p>
+        
+        <div style="text-align: center; margin-bottom: 20px;">
+            <a href="video-to-gif-offline.html" style="display: inline-block; padding: 10px 20px; background: rgba(102, 126, 234, 0.2); color: rgba(255, 255, 255, 0.9); text-decoration: none; border-radius: 8px; border: 1px solid rgba(102, 126, 234, 0.5); transition: all 0.3s ease;">
+                🎬 视频转GIF工具
+            </a>
+        </div>
+        
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📸</div>
+            <p>拖拽图片到这里或点击上传</p>
+            <input type="file" id="fileInput" accept="image/*" hidden>
+            <button class="upload-btn" id="uploadBtn">选择图片</button>
+        </div>
+
+        <div class="preview-section" id="previewSection" style="display: none;">
+            <h2>预览结果</h2>
+            <img id="previewImage" alt="预览图片">
+            <div class="url-section">
+                <label>🔗 图片链接（永久有效）</label>
+                <div class="url-display">
+                    <input type="text" id="imageUrl" readonly>
+                    <button class="copy-btn" id="copyBtn">复制</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>正在上传...</p>
+        </div>
+    </div>
+
+    <script>
+        // 创建下雨效果
+        function createRain() {
+            const rainContainer = document.getElementById('rain');
+            const numberOfDrops = 100; // 雨滴数量
+            
+            for (let i = 0; i < numberOfDrops; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'rain-drop';
+                
+                // 随机位置
+                drop.style.left = Math.random() * 100 + '%';
+                
+                // 随机延迟
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                
+                // 随机持续时间（速度）
+                drop.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+                
+                // 随机透明度
+                drop.style.opacity = Math.random() * 0.5 + 0.3;
+                
+                rainContainer.appendChild(drop);
+            }
+        }
+        
+        // 页面加载时创建雨滴
+        createRain();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+    "client_type": "web",
+    "client_id": "33986688963653003299707060171994.app.coze",
+    "coze_www_base": "https://www.coze.cn",
+    "coze_api_base": "https://api.coze.cn",
+    "client_secret": "cCeeGu5EKCNkKRukYmeRgVbdDfveSH3YmDTyYJgP5caN1DJ8",
+    "redirect_uris": [
+        "http://127.0.0.1:8080/callback"
+    ]
+}
